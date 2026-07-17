@@ -21,6 +21,9 @@ interface Settings {
   seo_site_description: string;
   seo_og_image_url: string;
   seo_twitter_handle: string;
+  philosophy_quote: string;
+  philosophy_paragraph_1: string;
+  philosophy_paragraph_2: string;
 }
 
 export default function SettingsPage() {
@@ -41,8 +44,26 @@ export default function SettingsPage() {
     
     if (data) {
       setSettings(data);
-    } else if (error) {
-      console.error("Error fetching settings:", error.message || error);
+    } else {
+      // Auto-initialize if missing
+      const defaultSettings = {
+        id: '00000000-0000-0000-0000-000000000000',
+        hero_title: 'System Online // Initiating Sequence',
+        hero_subtitle: 'Nambi Krishnan',
+        hero_description: 'Mechanical Engineering Student',
+      };
+      
+      const { data: insertedData, error: insertError } = await supabase
+        .from('portfolio_settings')
+        .insert([defaultSettings])
+        .select()
+        .single();
+        
+      if (insertedData) {
+        setSettings(insertedData);
+      } else if (insertError) {
+        console.error("Error creating default settings:", insertError);
+      }
     }
     setIsLoading(false);
   };
@@ -134,6 +155,25 @@ export default function SettingsPage() {
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-2">About Content</label>
                 <textarea name="about_content" value={settings.about_content || ""} onChange={handleChange} rows={6} className="w-full bg-zinc-900 border border-zinc-700 rounded-md px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+              </div>
+            </div>
+          </section>
+
+          {/* Philosophy Section */}
+          <section className="bg-zinc-950 p-6 rounded-xl border border-zinc-800 shadow-sm max-w-4xl">
+            <h2 className="text-xl font-bold text-white mb-6">Philosophy Section</h2>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-zinc-400 mb-2">Quote</label>
+                <textarea name="philosophy_quote" value={settings.philosophy_quote || ""} onChange={handleChange} rows={2} className="w-full bg-zinc-900 border border-zinc-700 rounded-md px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-400 mb-2">Paragraph 1</label>
+                <textarea name="philosophy_paragraph_1" value={settings.philosophy_paragraph_1 || ""} onChange={handleChange} rows={3} className="w-full bg-zinc-900 border border-zinc-700 rounded-md px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-400 mb-2">Paragraph 2</label>
+                <textarea name="philosophy_paragraph_2" value={settings.philosophy_paragraph_2 || ""} onChange={handleChange} rows={3} className="w-full bg-zinc-900 border border-zinc-700 rounded-md px-4 py-2 text-white focus:outline-none focus:border-blue-500" />
               </div>
             </div>
           </section>

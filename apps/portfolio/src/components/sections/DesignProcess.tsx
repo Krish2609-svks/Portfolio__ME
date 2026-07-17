@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-const steps = [
+const defaultSteps = [
   {
     number: "01",
     title: "Ideation & Problem Definition",
@@ -25,7 +25,15 @@ const steps = [
   }
 ];
 
-export default function DesignProcess() {
+interface DesignProcessStep {
+  number: string;
+  title: string;
+  description: string;
+}
+
+export default function DesignProcess({ steps = [] }: { steps?: DesignProcessStep[] }) {
+  const displaySteps = steps && steps.length > 0 ? steps : defaultSteps;
+
   return (
     <section id="process" className="relative w-full bg-background py-40 px-6 lg:px-20 overflow-hidden z-10 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
@@ -44,7 +52,7 @@ export default function DesignProcess() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, idx) => (
+          {displaySteps.map((step, idx) => (
             <motion.div
               key={step.number}
               initial={{ opacity: 0, y: 30 }}

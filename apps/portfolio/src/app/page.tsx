@@ -30,7 +30,8 @@ export default async function Home() {
     { data: leadership },
     { data: achievements },
     { data: certifications },
-    { data: gallery }
+    { data: gallery },
+    { data: designProcess }
   ] = await Promise.all([
     supabase.from('skills').select('*').eq('published', true).order('display_order', { ascending: true }),
     supabase.from('experience').select('*').eq('published', true).order('display_order', { ascending: true }),
@@ -38,7 +39,8 @@ export default async function Home() {
     supabase.from('leadership').select('*').eq('published', true).order('display_order', { ascending: true }),
     supabase.from('achievements').select('*').eq('published', true).order('display_order', { ascending: true }),
     supabase.from('certifications').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('gallery').select('*').eq('published', true).order('display_order', { ascending: true })
+    supabase.from('gallery').select('*').eq('published', true).order('display_order', { ascending: true }),
+    supabase.from('design_process').select('*').eq('published', true).order('display_order', { ascending: true })
   ]);
 
   return (
@@ -54,7 +56,11 @@ export default async function Home() {
         content={settings?.about_content}
         imageUrl={settings?.about_image_url}
       />
-      <Philosophy />
+      <Philosophy 
+        quote={settings?.philosophy_quote}
+        paragraph1={settings?.philosophy_paragraph_1}
+        paragraph2={settings?.philosophy_paragraph_2}
+      />
       
       {/* Dynamic DB Sections */}
       <Skills skills={skills || []} />
@@ -63,7 +69,7 @@ export default async function Home() {
       <Leadership leadershipItems={leadership || []} certifications={certifications || []} />
       <Achievements items={achievements || []} />
       
-      <DesignProcess />
+      <DesignProcess steps={designProcess || []} />
       <Projects />
       
       <Gallery items={gallery || []} />

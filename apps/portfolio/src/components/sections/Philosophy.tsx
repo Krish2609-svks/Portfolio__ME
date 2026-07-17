@@ -2,7 +2,17 @@
 
 import { motion } from "framer-motion";
 
-export default function Philosophy() {
+interface PhilosophyProps {
+  quote?: string;
+  paragraph1?: string;
+  paragraph2?: string;
+}
+
+export default function Philosophy({
+  quote = "Engineering is not just about solving equations. It is about visualizing a better future and having the technical rigor to manufacture it into reality.",
+  paragraph1 = "I believe in a hands-on approach to mechanical design. Whether I am modeling a complex sheet metal enclosure in SolidWorks or programming an ESP32 for smart vehicle integration, my goal is always to reduce the friction between the initial concept and the final, functional prototype.",
+  paragraph2 = "True innovation happens at the intersection of mechanical design, embedded systems, and modern manufacturing techniques. By understanding all three, I aim to build products that are not only theoretically robust, but highly manufacturable and user-centric."
+}: PhilosophyProps) {
   return (
     <section id="philosophy" className="relative w-full bg-background-secondary py-40 px-6 lg:px-20 overflow-hidden z-10 border-t border-white/5">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
@@ -28,14 +38,14 @@ export default function Philosophy() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-col gap-6"
           >
-            <p className="text-xl md:text-2xl font-light text-foreground/90 leading-relaxed italic border-l-2 border-accent-secondary pl-6">
-              &quot;Engineering is not just about solving equations. It is about visualizing a better future and having the technical rigor to manufacture it into reality.&quot;
+            <p className="text-xl md:text-2xl font-light text-foreground/90 leading-relaxed italic border-l-2 border-accent-secondary pl-6 whitespace-pre-line">
+              &quot;{quote}&quot;
             </p>
-            <p className="text-lg text-foreground/60 leading-relaxed font-light">
-              I believe in a hands-on approach to mechanical design. Whether I am modeling a complex sheet metal enclosure in SolidWorks or programming an ESP32 for smart vehicle integration, my goal is always to reduce the friction between the initial concept and the final, functional prototype.
+            <p className="text-lg text-foreground/60 leading-relaxed font-light whitespace-pre-line">
+              {paragraph1}
             </p>
-            <p className="text-lg text-foreground/60 leading-relaxed font-light">
-              True innovation happens at the intersection of mechanical design, embedded systems, and modern manufacturing techniques. By understanding all three, I aim to build products that are not only theoretically robust, but highly manufacturable and user-centric.
+            <p className="text-lg text-foreground/60 leading-relaxed font-light whitespace-pre-line">
+              {paragraph2}
             </p>
           </motion.div>
         </div>

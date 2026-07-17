@@ -16,7 +16,8 @@ import {
   Users,
   Trophy,
   Scroll,
-  Images
+  Images,
+  PenTool
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,7 @@ const navItems = [
   { name: "Achievements", href: "/achievements", icon: Trophy },
   { name: "Certifications", href: "/certifications", icon: Scroll },
   { name: "Skills", href: "/skills", icon: Award },
+  { name: "Design Process", href: "/design-process", icon: PenTool },
   { name: "Gallery", href: "/gallery", icon: Images },
   { name: "Inbox", href: "/inbox", icon: MessageSquare },
   { name: "Audit Logs", href: "/audit", icon: BookOpen },
