@@ -334,7 +334,7 @@ export async function POST() {
         { value: 500, label: "CAD Hours" },
         { value: 95, label: "FEA Accuracy" }
       ],
-      experience: experience.map((exp) => ({
+      experience: experience.map((exp: any) => ({
         company: exp.company,
         role: exp.role,
         start_date: exp.startDate.toISOString().split("T")[0],
@@ -350,11 +350,11 @@ export async function POST() {
           description: "Focus on machine design, FEA methods, robotics, and composite layout."
         }
       ],
-      capabilities: categories.map((cat) => ({
+      capabilities: categories.map((cat: any) => ({
         category: cat.name,
-        skills: cat.skills.map((s) => s.name)
+        skills: cat.skills.map((s: any) => s.name)
       })),
-      projects: projects.map((proj) => ({
+      projects: projects.map((proj: any) => ({
         id: proj.slug,
         title: proj.title,
         category: proj.category,
@@ -371,16 +371,16 @@ export async function POST() {
         prototype: proj.prototype || undefined,
         testing: proj.testing || undefined,
         result: proj.result || undefined,
-        gallery: proj.gallery.map((g) => ({
+        gallery: proj.gallery.map((g: any) => ({
           url: g.url,
           caption: g.caption || undefined
         }))
       })),
-      leadership: leadership.map((l) => ({
+      leadership: leadership.map((l: any) => ({
         role: l.role,
         description: l.description
       })),
-      certifications: certifications.map((c) => ({
+      certifications: certifications.map((c: any) => ({
         title: c.title,
         issuer: c.issuer,
         credential_id: c.credentialId,
