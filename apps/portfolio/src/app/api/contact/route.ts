@@ -17,20 +17,8 @@ const contactSchema = z.object({
   honeypot: z.string().max(0, "Spam detected").optional(),
 });
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
-
-// Allow 3 requests per IP every 10 minutes
-const ratelimit = new Ratelimit({
-  redis: redis,
-  limiter: Ratelimit.slidingWindow(3, "10 m"),
-  analytics: true,
-});
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+// Rate limiting and clients will be initialized inside the request handler
+// to prevent build errors when environment variables are missing at build time.
 
 async function verifyTurnstile(token: string, ip: string) {
   const formData = new FormData();
@@ -48,6 +36,20 @@ export async function POST(req: Request) {
   try {
     const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
     const userAgent = req.headers.get("user-agent") ?? "Unknown";
+
+    const redis = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL!,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    });
+
+    const ratelimit = new Ratelimit({
+      redis: redis,
+      limiter: Ratelimit.slidingWindow(3, "10 m"),
+      analytics: true,
+    });
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
     // 1. Rate Limiting
     const { success: rateLimitSuccess } = await ratelimit.limit(ip);
