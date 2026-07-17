@@ -1,0 +1,8 @@
+-- Alter existing messages table
+ALTER TABLE public.messages
+ADD COLUMN IF NOT EXISTS company TEXT,
+ADD COLUMN IF NOT EXISTS phone TEXT,
+ADD COLUMN IF NOT EXISTS subject TEXT,
+ADD COLUMN IF NOT EXISTS ip_address TEXT,
+ADD COLUMN IF NOT EXISTS user_agent TEXT,
+ADD COLUMN IF NOT EXISTS source_page TEXT;

@@ -1,0 +1,16 @@
+
+> mech-portfolio@0.1.0 lint
+> eslint .
+
+
+C:\Users\Krish\.gemini\antigravity-ide\scratch\mech-portfolio\apps\portfolio\src\app\layout.tsx
+  9:7  warning  'inter' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Krish\.gemini\antigravity-ide\scratch\mech-portfolio\apps\portfolio\src\components\canvas\EngineeringBackground.tsx
+  17:7  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps')
+  18:7  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/rules-of-hooks')
+  19:7  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/purity')
+
+✖ 4 problems (0 errors, 4 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+
