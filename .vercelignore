@@ -1,0 +1,14 @@
+.next/
+.turbo/
+node_modules/
+apps/cms/.next/
+apps/portfolio/.next/
+apps/cms/dev.db
+apps/cms/dev.db-journal
+.vercel/
+package-lock.json
+*.db
+*.db-journal
+coverage/
+build/
+out/
