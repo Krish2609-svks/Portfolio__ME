@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Folder, File, Upload, Search, ChevronRight, Image as ImageIcon, FileText, Video } from "lucide-react";
+import { Folder, File, Upload, Search, ChevronRight, Image as ImageIcon, FileText, Video, Trash2 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 
 interface StorageItem {
@@ -33,6 +33,24 @@ export default function MediaLibrary() {
       setItems(data);
     }
     setIsLoading(false);
+  };
+
+  const handleDeleteItem = async (e: React.MouseEvent, itemName: string) => {
+    e.stopPropagation();
+    if (!confirm(`Are you sure you want to delete ${itemName}?`)) return;
+    
+    const pathStr = currentPath.length === 0 ? '' : currentPath.join('/') + '/';
+    const filePath = `${pathStr}${itemName}`;
+    
+    const { error } = await supabase.storage
+      .from('portfolio-media')
+      .remove([filePath]);
+      
+    if (error) {
+      alert(`Failed to delete ${itemName}: ${error.message}`);
+    } else {
+      fetchItems();
+    }
   };
   useEffect(() => {
     fetchItems();
@@ -152,11 +170,21 @@ export default function MediaLibrary() {
                     onClick={() => isFolder ? handleNavigate(item.name) : null}
                     className="flex flex-col items-center p-4 rounded-lg hover:bg-zinc-900 border border-transparent hover:border-zinc-800 cursor-pointer transition-colors group"
                   >
-                    <div className="h-16 w-16 flex items-center justify-center bg-zinc-900 group-hover:bg-zinc-800 rounded-xl mb-3 transition-colors">
+                    <div className="h-16 w-16 flex items-center justify-center bg-zinc-900 group-hover:bg-zinc-800 rounded-xl mb-3 transition-colors relative">
                       {isFolder ? (
                         <Folder className="h-8 w-8 text-yellow-500" />
                       ) : (
                         getFileIcon(item.name)
+                      )}
+                      
+                      {!isFolder && (
+                        <button 
+                          onClick={(e) => handleDeleteItem(e, item.name)}
+                          className="absolute -top-1.5 -right-1.5 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+                          title="Delete File"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
                       )}
                     </div>
                     <p className="text-sm font-medium text-zinc-300 text-center truncate w-full group-hover:text-white">

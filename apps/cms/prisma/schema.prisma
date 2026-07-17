@@ -1,0 +1,250 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Profile {
+  id             String  @id @default("singleton")
+  name           String
+  title          String
+  subtitle       String
+  shortBio       String
+  longBio        String
+  location       String
+  email          String
+  phone          String
+  linkedin       String
+  github         String
+  portfolioUrl   String
+  profilePicture String
+  coverImage     String
+  model3D        String
+}
+
+model Hero {
+  id             String  @id @default("singleton")
+  heading        String
+  subheading     String
+  bgType         String // "video", "image", "model"
+  model3D        String
+  animSpeed      Float
+  videoUrl       String
+  imageUrl       String
+  ctaText        String
+  ctaUrl         String
+}
+
+model About {
+  id           String @id @default("singleton")
+  introduction String
+  education    String // Stringified JSON array of items
+  careerObj    String
+  interests    String // Stringified JSON array of strings
+  quickFacts   String // Stringified JSON array of strings
+  stats        String // Stringified JSON array of objects
+}
+
+model SkillCategory {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  displayOrder Int
+  skills       Skill[]
+}
+
+model Skill {
+  id            String        @id @default(uuid())
+  name          String
+  level         Int
+  learningBadge Boolean
+  icon          String
+  description   String
+  categoryId    String
+  category      SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id              String           @id @default(uuid())
+  title           String
+  slug            String           @unique
+  category        String
+  status          String // "draft", "published", "archived"
+  featured        Boolean          @default(false)
+  displayOrder    Int              @default(0)
+  thumbnail       String
+  heroImage       String
+  videoUrl        String?
+  github          String?
+  liveDemo        String?
+  youtubeUrl      String?
+  projectPdf      String?
+  presentationPdf String?
+
+  overview    String
+  challenge   String?
+  research    String?
+  cad         String?
+  electronics String?
+  prototype   String?
+  testing     String?
+  result      String?
+
+  technologies String // comma-separated or JSON list
+  software     String
+  hardware     String
+  tags         String
+
+  gallery   ProjectGallery[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model ProjectGallery {
+  id        String  @id @default(uuid())
+  url       String
+  caption   String?
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Certification {
+  id              String   @id @default(uuid())
+  title           String
+  issuer          String
+  issueDate       DateTime
+  credentialId    String
+  imageUrl        String
+  pdfUrl          String?
+  verificationUrl String
+  featured        Boolean  @default(false)
+}
+
+model Leadership {
+  id           String    @id @default(uuid())
+  role         String
+  organization String
+  description  String
+  startDate    DateTime
+  endDate      DateTime?
+  achievements String // Stringified JSON array or text
+  imageUrl     String?
+}
+
+model Experience {
+  id           String    @id @default(uuid())
+  company      String
+  role         String
+  description  String
+  startDate    DateTime
+  endDate      DateTime?
+  skills       String // comma-separated list
+  imageUrl     String?
+}
+
+model Achievement {
+  id          String   @id @default(uuid())
+  title       String
+  category    String // "award", "competition", "patent", "publication"
+  description String
+  date        DateTime
+  imageUrl    String?
+  pdfUrl      String?
+}
+
+model TimelineEvent {
+  id           String @id @default(uuid())
+  date         String
+  title        String
+  description  String
+  icon         String
+  displayOrder Int
+}
+
+model Resume {
+  id            String   @id @default(uuid())
+  name          String
+  url           String
+  category      String // "cad", "prototype", "research", "default"
+  isDefault     Boolean  @default(false)
+  downloadCount Int      @default(0)
+}
+
+model ContactSettings {
+  id         String  @id @default("singleton")
+  email      String
+  phone      String
+  linkedin   String
+  github     String
+  instagram  String
+  location   String
+  smtpServer String?
+  smtpPort   Int?
+  smtpUser   String?
+  smtpPass   String?
+}
+
+model ContactMessage {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  company    String?
+  phone      String?
+  subject    String
+  message    String
+  isRead     Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model SEOSettings {
+  id           String @id @default("singleton")
+  metaTitle    String
+  description  String
+  keywords     String
+  ogImage      String
+  twitterCard  String
+  robots       String
+  canonicalUrl String
+}
+
+model AnalyticsSession {
+  id        String           @id @default(uuid())
+  visitorId String
+  country   String
+  device    String
+  referrer  String
+  createdAt DateTime         @default(now())
+  clicks    AnalyticsClick[]
+}
+
+model AnalyticsClick {
+  id        String           @id @default(uuid())
+  type      String // "project_view", "resume_download", "social_click"
+  targetId  String?
+  sessionId String
+  session   AnalyticsSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+}
+
+model WebsiteSettings {
+  id          String  @id @default("singleton")
+  logo        String
+  favicon     String
+  theme       String  @default("dark")
+  accentColor String  @default("#fafafa")
+  fonts       String  @default("Inter")
+  loaderAnim  String  @default("NK")
+  cursorStyle String  @default("default")
+  sections    String  @default("{}") // JSON map of active sections
+  maintMode   Boolean @default(false)
+}

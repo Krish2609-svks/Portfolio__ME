@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +16,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-
-  const isAuth = !!data?.user;
+  const cookieStore = await cookies();
+  const isAuth = !!cookieStore.get("admin-session")?.value;
 
   return (
     <html lang="en" className="dark">

@@ -6,33 +6,46 @@ import { cn } from "@/lib/utils";
 
 const sections = [
   { id: "home", label: "Home" },
-  { id: "philosophy", label: "Philosophy" },
   { id: "about", label: "About" },
-  { id: "leadership", label: "Leadership" },
-  { id: "skills", label: "Skills" },
-  { id: "process", label: "Process" },
+  { id: "capabilities", label: "Capabilities" },
   { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
+  { id: "leadership", label: "Leadership" },
   { id: "contact", label: "Contact" }
 ];
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("home");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      
+      setIsScrolled(currentScrollY > 50);
+
+      // Hide on scroll down, show on scroll up
+      if (currentScrollY < 100) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -70% 0px",
+      rootMargin: "-30% 0px -60% 0px",
       threshold: 0
     };
 
@@ -65,43 +78,53 @@ export default function Navigation() {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ 
+          y: isVisible ? 0 : -100, 
+          opacity: isVisible ? 1 : 0 
+        }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          "fixed top-0 left-0 w-full z-50 transition-all duration-500",
-          isScrolled ? "py-4 bg-background/80 backdrop-blur-xl border-b border-white/5 shadow-2xl" : "py-6 bg-transparent"
+          "fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl rounded-full transition-all duration-300",
+          isScrolled 
+            ? "glass py-3 px-6 shadow-2xl border border-white/10" 
+            : "bg-transparent py-4 px-6 border border-transparent"
         )}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-20 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           
           <button 
             onClick={() => scrollToSection("home")}
-            className="text-2xl font-bold font-mono tracking-tighter text-highlight hover:text-accent-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-primary outline-none"
+            className="text-xl font-bold font-mono tracking-tighter text-highlight hover:text-accent-primary transition-colors focus-visible:ring-2 focus-visible:ring-accent-primary outline-none"
             aria-label="Back to home"
           >
-            NK.
+            NK<span className="text-accent-primary">.</span>
           </button>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1 bg-white/5 backdrop-blur-md px-2 py-1.5 rounded-full border border-white/10">
+          <div className="hidden md:flex items-center gap-1">
             {sections.map((section) => {
               const isActive = activeSection === section.id;
               return (
                 <button
                   key={section.id}
                   onClick={() => scrollToSection(section.id)}
-                  className="relative px-4 py-2 text-sm font-mono tracking-widest uppercase transition-colors focus-visible:ring-2 focus-visible:ring-accent-primary outline-none rounded-full"
+                  className={cn(
+                    "relative px-4 py-2 text-[10px] font-mono tracking-widest uppercase transition-all focus-visible:ring-2 focus-visible:ring-accent-primary outline-none rounded-full"
+                  )}
                   aria-current={isActive ? "page" : undefined}
                 >
-                  <span className={cn("relative z-10 transition-colors duration-300", isActive ? "text-background font-bold" : "text-foreground/60 hover:text-highlight")}>
+                  <span className={cn(
+                    "relative z-10 transition-colors duration-300", 
+                    isActive ? "text-background font-bold" : "text-foreground/50 hover:text-highlight"
+                  )}>
                     {section.label}
                   </span>
                   {isActive && (
                     <motion.div
                       layoutId="nav-pill"
                       className="absolute inset-0 bg-accent-primary rounded-full"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
                     />
                   )}
                 </button>
@@ -111,39 +134,50 @@ export default function Navigation() {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus-visible:ring-2 focus-visible:ring-accent-primary outline-none z-50"
+            className="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-1.5 focus-visible:ring-2 focus-visible:ring-accent-primary outline-none z-50 rounded-full"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
             aria-expanded={isMobileMenuOpen}
           >
-            <motion.span animate={{ rotate: isMobileMenuOpen ? 45 : 0, y: isMobileMenuOpen ? 8 : 0 }} className="w-6 h-[2px] bg-highlight block transition-all" />
-            <motion.span animate={{ opacity: isMobileMenuOpen ? 0 : 1 }} className="w-6 h-[2px] bg-highlight block transition-all" />
-            <motion.span animate={{ rotate: isMobileMenuOpen ? -45 : 0, y: isMobileMenuOpen ? -8 : 0 }} className="w-6 h-[2px] bg-highlight block transition-all" />
+            <motion.span 
+              animate={{ rotate: isMobileMenuOpen ? 45 : 0, y: isMobileMenuOpen ? 5.5 : 0 }} 
+              className="w-5 h-[1.5px] bg-highlight block transition-all" 
+            />
+            <motion.span 
+              animate={{ opacity: isMobileMenuOpen ? 0 : 1 }} 
+              className="w-5 h-[1.5px] bg-highlight block transition-all" 
+            />
+            <motion.span 
+              animate={{ rotate: isMobileMenuOpen ? -45 : 0, y: isMobileMenuOpen ? -5.5 : 0 }} 
+              className="w-5 h-[1.5px] bg-highlight block transition-all" 
+            />
           </button>
 
         </div>
       </motion.nav>
 
-      {/* Mobile Nav Overlay */}
+      {/* Mobile Nav Overlay / Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl lg:hidden flex flex-col items-center justify-center gap-6"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl md:hidden flex flex-col items-center justify-center gap-8"
           >
+            <div className="absolute inset-0 blueprint-grid opacity-[0.02]" />
             {sections.map((section, idx) => (
               <motion.button
                 key={section.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
+                exit={{ opacity: 0, y: 30 }}
+                transition={{ delay: idx * 0.05, duration: 0.4 }}
                 onClick={() => scrollToSection(section.id)}
                 className={cn(
-                  "text-2xl font-mono tracking-widest uppercase transition-colors focus-visible:ring-2 focus-visible:ring-accent-primary outline-none",
-                  activeSection === section.id ? "text-accent-primary font-bold" : "text-foreground/60 hover:text-highlight"
+                  "text-xl font-mono tracking-widest uppercase transition-colors focus-visible:ring-2 focus-visible:ring-accent-primary outline-none py-2 px-6 rounded-full",
+                  activeSection === section.id ? "text-accent-primary font-bold bg-white/5 border border-white/10" : "text-foreground/50 hover:text-highlight"
                 )}
               >
                 {section.label}

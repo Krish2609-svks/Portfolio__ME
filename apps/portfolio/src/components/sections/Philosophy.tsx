@@ -1,74 +1,84 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface PhilosophyProps {
   quote?: string;
-  paragraph1?: string;
-  paragraph2?: string;
+  highlight?: string;
+  subtext?: string;
 }
 
 export default function Philosophy({
-  quote = "Engineering is not just about solving equations. It is about visualizing a better future and having the technical rigor to manufacture it into reality.",
-  paragraph1 = "I believe in a hands-on approach to mechanical design. Whether I am modeling a complex sheet metal enclosure in SolidWorks or programming an ESP32 for smart vehicle integration, my goal is always to reduce the friction between the initial concept and the final, functional prototype.",
-  paragraph2 = "True innovation happens at the intersection of mechanical design, embedded systems, and modern manufacturing techniques. By understanding all three, I aim to build products that are not only theoretically robust, but highly manufacturable and user-centric."
+  quote = "I don't just create CAD models.",
+  highlight = "I design products that solve real engineering problems.",
+  subtext = "Every line drawn and assembly mated has a functional purpose: ease of manufacturing, structural integrity, and ergonomic refinement."
 }: PhilosophyProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Slow, cinematic background color transition while scrolling
+  const backgroundColor = useTransform(
+    scrollYProgress,
+    [0.2, 0.5, 0.8],
+    ["#09090b", "#141417", "#09090b"]
+  );
+
+  // Translate vertical positions and opacity for cinematic reveals
+  const opacity1 = useTransform(scrollYProgress, [0.25, 0.38], [0.15, 1]);
+  const y1 = useTransform(scrollYProgress, [0.25, 0.38], [30, 0]);
+
+  const opacity2 = useTransform(scrollYProgress, [0.42, 0.55], [0.15, 1]);
+  const y2 = useTransform(scrollYProgress, [0.42, 0.55], [30, 0]);
+
+  const opacity3 = useTransform(scrollYProgress, [0.58, 0.72], [0.1, 1]);
+  const y3 = useTransform(scrollYProgress, [0.58, 0.72], [30, 0]);
+
   return (
-    <section id="philosophy" className="relative w-full bg-background-secondary py-40 px-6 lg:px-20 overflow-hidden z-10 border-t border-white/5">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+    <motion.section 
+      id="philosophy" 
+      ref={containerRef}
+      style={{ backgroundColor }}
+      className="relative w-full min-h-screen flex flex-col justify-center py-40 px-6 lg:px-20 z-10 overflow-hidden border-t border-b border-white/5 transition-colors duration-1000"
+    >
+      {/* Subtle blueprints overlay */}
+      <div className="absolute inset-0 blueprint-grid opacity-[0.01]" />
+      
+      <div className="max-w-7xl mx-auto flex flex-col justify-center min-h-[60vh] gap-12 select-none">
         
-        {/* Left Side: Text */}
-        <div className="flex-1 flex flex-col gap-8">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-6xl font-bold text-highlight mb-6 uppercase tracking-tighter">
-              Engineering <span className="text-accent-secondary">Philosophy</span>
-            </h2>
-            <div className="w-24 h-1 bg-accent-secondary mb-8" />
-          </motion.div>
+        <span className="font-mono text-xs text-accent-primary/40 uppercase tracking-[0.3em] block mb-4">
+          Engineering Philosophy //
+        </span>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col gap-6"
-          >
-            <p className="text-xl md:text-2xl font-light text-foreground/90 leading-relaxed italic border-l-2 border-accent-secondary pl-6 whitespace-pre-line">
-              &quot;{quote}&quot;
-            </p>
-            <p className="text-lg text-foreground/60 leading-relaxed font-light whitespace-pre-line">
-              {paragraph1}
-            </p>
-            <p className="text-lg text-foreground/60 leading-relaxed font-light whitespace-pre-line">
-              {paragraph2}
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Right Side: Abstract Visual (Placeholder) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="flex-1 w-full relative h-[400px] glass-panel rounded-3xl overflow-hidden flex items-center justify-center border border-white/10"
+        {/* Sentence 1 */}
+        <motion.h2 
+          style={{ opacity: opacity1, y: y1 }}
+          className="text-4xl md:text-7xl lg:text-8xl font-black text-foreground/40 leading-none uppercase tracking-tighter"
         >
-          {/* Abstract Wireframe / Blueprint styling */}
-          <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(0,229,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(0,229,255,0.2)_1px,transparent_1px)] bg-[size:20px_20px]" />
-          <div className="w-48 h-48 border border-accent-primary rounded-full absolute animate-spin-slow opacity-30" />
-          <div className="w-32 h-32 border-2 border-dashed border-accent-secondary rounded-full absolute animate-reverse-spin opacity-50" />
-          <div className="w-16 h-16 bg-accent-primary/20 backdrop-blur-md rounded-lg absolute rotate-45 border border-accent-primary flex items-center justify-center shadow-[0_0_30px_rgba(0,229,255,0.5)]">
-            <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-          </div>
-          <span className="absolute bottom-6 right-6 text-xs font-mono tracking-widest text-accent-primary uppercase opacity-50">FIG 1. Abstract Assembly</span>
-        </motion.div>
+          {quote}
+        </motion.h2>
+
+        {/* Sentence 2 - Accent highlighted */}
+        <motion.h2 
+          style={{ opacity: opacity2, y: y2 }}
+          className="text-4xl md:text-7xl lg:text-8xl font-black text-highlight leading-none uppercase tracking-tighter"
+        >
+          {highlight}
+        </motion.h2>
+
+        {/* Sentence 3 - Subtext explanatory */}
+        <motion.p 
+          style={{ opacity: opacity3, y: y3 }}
+          className="text-lg md:text-2xl text-foreground/40 font-light max-w-3xl mt-8 leading-relaxed"
+        >
+          {subtext}
+        </motion.p>
 
       </div>
-    </section>
+    </motion.section>
   );
 }
+

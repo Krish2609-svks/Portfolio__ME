@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { 
   LayoutDashboard, 
   FolderKanban, 
@@ -17,7 +18,9 @@ import {
   Trophy,
   Scroll,
   Images,
-  PenTool
+  PenTool,
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -40,6 +43,31 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishStatus, setPublishStatus] = useState<string | null>(null);
+
+  const handleSignOut = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+  };
+
+  const handlePublish = async () => {
+    setIsPublishing(true);
+    setPublishStatus(null);
+    try {
+      const res = await fetch("/api/publish", { method: "POST" });
+      if (res.ok) {
+        setPublishStatus("Success!");
+        setTimeout(() => setPublishStatus(null), 3000);
+      } else {
+        setPublishStatus("Error");
+      }
+    } catch {
+      setPublishStatus("Failed");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full w-64 bg-zinc-950 border-r border-zinc-800 text-zinc-300">
@@ -69,16 +97,28 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-zinc-800">
-        <form action="/auth/signout" method="POST">
-          <button 
-            type="submit"
-            className="flex items-center w-full px-3 py-2 text-sm font-medium text-zinc-400 rounded-md hover:bg-zinc-900 hover:text-white transition-colors"
-          >
-            <LogOut className="mr-3 h-5 w-5 text-zinc-500" />
-            Sign out
-          </button>
-        </form>
+      {/* Control Actions & Signout at the bottom */}
+      <div className="p-4 border-t border-zinc-800 space-y-2">
+        <button 
+          onClick={handlePublish}
+          disabled={isPublishing}
+          className="flex items-center w-full px-3 py-2.5 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-all active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+        >
+          {isPublishing ? (
+            <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+          ) : (
+            <Sparkles className="mr-3 h-5 w-5" />
+          )}
+          {publishStatus ? publishStatus : isPublishing ? "Publishing..." : "Publish Changes"}
+        </button>
+
+        <button 
+          onClick={handleSignOut}
+          className="flex items-center w-full px-3 py-2.5 text-sm font-medium text-zinc-400 rounded-md hover:bg-zinc-900 hover:text-white transition-colors"
+        >
+          <LogOut className="mr-3 h-5 w-5 text-zinc-500" />
+          Sign out
+        </button>
       </div>
     </div>
   );

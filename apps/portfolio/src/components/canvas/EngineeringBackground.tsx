@@ -10,13 +10,10 @@ function Particles() {
   const ref = useRef<THREE.Points>(null);
   
   // Reduced particle count for better mobile performance
-  const particlesCount = 800;
+  const particlesCount = 400;
   const positions = useMemo(() => {
     const pos = new Float32Array(particlesCount * 3);
     for(let i = 0; i < particlesCount; i++) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      // eslint-disable-next-line react-hooks/purity
       pos[i * 3] = (Math.random() - 0.5) * 20;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
@@ -26,8 +23,8 @@ function Particles() {
 
   useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.x -= delta / 20;
-      ref.current.rotation.y -= delta / 30;
+      ref.current.rotation.x -= delta / 30;
+      ref.current.rotation.y -= delta / 40;
     }
   });
 
@@ -35,11 +32,11 @@ function Particles() {
     <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#00E5FF"
-        size={0.04}
+        color="#a1a1aa" // Muted gray instead of cyan
+        size={0.03}
         sizeAttenuation={true}
         depthWrite={false}
-        opacity={0.3}
+        opacity={0.15}
       />
     </Points>
   );
@@ -50,7 +47,8 @@ function GridBackground() {
   
   useFrame((state) => {
     if (gridRef.current) {
-      gridRef.current.position.z = (state.clock.elapsedTime * 0.5) % 1;
+      // Slow continuous forward movement
+      gridRef.current.position.z = (state.clock.elapsedTime * 0.15) % 1.5;
     }
   });
 
@@ -59,14 +57,14 @@ function GridBackground() {
       <Grid
         position={[0, -2, 0]}
         args={[40, 40]}
-        cellSize={0.5}
-        cellThickness={1}
-        cellColor="#161B22"
-        sectionSize={2.5}
-        sectionThickness={1.5}
-        sectionColor="#00E5FF"
-        fadeDistance={25}
-        fadeStrength={1}
+        cellSize={0.75}
+        cellThickness={0.8}
+        cellColor="#1f1f23" // Muted dark grid lines
+        sectionSize={3.75}
+        sectionThickness={1.2}
+        sectionColor="#2f2f35" // Dark steel gray main lines
+        fadeDistance={20}
+        fadeStrength={1.5}
       />
     </group>
   );
@@ -75,14 +73,16 @@ function GridBackground() {
 export default function EngineeringBackground() {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none bg-background">
-      {/* Set DPR for better performance on high density displays (mobile) */}
-      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 60 }}>
-        <fog attach="fog" args={["#050505", 2, 15]} />
-        <ambientLight intensity={0.2} />
-        <directionalLight position={[10, 10, 5]} intensity={1} color="#00B4D8" />
+      <div className="noise-bg" />
+      <Canvas dpr={[1, 1.2]} camera={{ position: [0, 0, 5], fov: 60 }}>
+        <fog attach="fog" args={["#09090b", 3, 10]} />
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[5, 10, 3]} intensity={1.5} color="#ffffff" />
+        <directionalLight position={[-5, -5, -2]} intensity={0.5} color="#27272a" />
         <GridBackground />
         <Particles />
       </Canvas>
     </div>
   );
 }
+

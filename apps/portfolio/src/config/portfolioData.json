@@ -1,0 +1,278 @@
+{
+  "settings": {
+    "name": "Nambi Krishnan",
+    "title": "Mechanical Engineer & Product Designer",
+    "roles": [
+      "Mechanical Engineer",
+      "Product Designer",
+      "Prototype Developer"
+    ],
+    "hero_title": "System Online // Initiating Sequence",
+    "hero_subtitle": "Nambi Krishnan",
+    "hero_description": "Designing products, building prototypes and continuously learning new engineering technologies.",
+    "resume_url": "/Nambi_Krishnan_Resume.pdf",
+    "email": "nambikrishnan2@gmail.com",
+    "linkedin": "https://linkedin.com/in/nambi-krishnan-m-156269310",
+    "github": "https://github.com/nambikrishnanm",
+    "location": "Tamil Nadu, India",
+    "availability": "Open to Internship & Entry-level Opportunities",
+    "about_content": "I specialize in transforming complex engineering challenges into elegant, manufacturable solutions. With a foundation in mechanical principles and an eye for industrial design, I bridge the gap between aesthetic intent and functional reality. My approach is rooted in the belief that the best designs are both beautiful and infinitely practical.\n\nMy goal is to build innovative products by combining CAD design, rapid prototyping, embedded systems, and practical manufacturing knowledge while continuously learning modern engineering technologies.",
+    "about_image_url": null,
+    "philosophy_quote": "I don't just create CAD models.",
+    "philosophy_highlight": "I design products that solve real engineering problems.",
+    "philosophy_subtext": "Every line drawn and assembly mated has a functional purpose: ease of manufacturing, structural integrity, and ergonomic refinement."
+  },
+  "stats": [
+    {
+      "value": "4",
+      "label": "Projects Completed"
+    },
+    {
+      "value": "7.8",
+      "label": "CGPA"
+    },
+    {
+      "value": "15+",
+      "label": "CAD Assemblies"
+    },
+    {
+      "value": "3+",
+      "label": "Years CAD Experience"
+    }
+  ],
+  "capabilities": {
+    "Mechanical Engineering": [
+      "CAD Modeling",
+      "Assembly Design",
+      "Technical Drawing"
+    ],
+    "Prototype Development": [
+      "3D Printing"
+    ],
+    "Programming": [
+      "Python",
+      "Arduino",
+      "ESP32"
+    ],
+    "Electronics": [
+      "Soldering",
+      "Circuit Assembly",
+      "Sensor Integration"
+    ],
+    "Creative": [
+      "DaVinci Resolve",
+      "Photography",
+      "Videography",
+      "Canva"
+    ],
+    "Professional Tools": [
+      "Microsoft Office",
+      "Google Workspace",
+      "Git",
+      "GitHub",
+      "VS Code"
+    ],
+    "Learning": [
+      "nTop Platform"
+    ]
+  },
+  "projects": [
+    {
+      "id": "project-01",
+      "title": "Smart Keyless Bike Unlock System",
+      "category": "Mechatronics & Product Design",
+      "overview": "An IoT-based keyless bicycle security system utilizing an ESP32 microcontroller, dual-stage lock mechanism, and smartphone Bluetooth low energy (BLE) integration.",
+      "challenge": "Designing a weatherproof, compact enclosure that clamps securely onto standard bicycle frame configurations while accommodating high-torque servos, rechargeable cells, and microelectronics.",
+      "research": "Investigated bicycle frame geometric tolerances, battery discharge curves under low temperatures, and sleep-state current optimization profiles for the ESP32 (reducing idle draw to 15µA).",
+      "cad": "Engineered a dual-pin rotary latch locking assembly in SOLIDWORKS. Performed FEA (Finite Element Analysis) on the latch fingers to verify strength under a 1200N shear force. Optimized enclosure walls for SLA printing with sealing gaskets.",
+      "electronics": "Integrated ESP32 MCU, high-torque micro-servo motor, TP4056 lithium battery charger, status indicator LEDs, and a customized PCB shield to minimize connection noise.",
+      "prototype": "Fabricated the mechanical housing via PETG FDM printing for heat resistance and high impact strength. Assembled gears, aligned locking tabs, and potted key sensors.",
+      "testing": "Subjected the lock to a 1000-cycle actuation endurance test, spray chamber water ingress tests (IP54 equivalent), and BLE range configuration tests up to 8 meters.",
+      "result": "Constructed a fully functional keyless bicycle lock achieving 99.4% connection pairing success, a locking actuation speed of under 0.8 seconds, and 45 days of rechargeable runtime.",
+      "github": "https://github.com/nambikrishnanm/smart-keyless-bike-lock",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=1200&auto=format&fit=crop",
+          "caption": "SolidWorks assembly and stress distribution analysis"
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=1200&auto=format&fit=crop",
+          "caption": "Finished prototype enclosure mounted on bike frame"
+        }
+      ]
+    },
+    {
+      "id": "project-02",
+      "title": "Electric Bicycle Design & Fabrication",
+      "category": "Vehicular Dynamics & Manufacturing",
+      "overview": "A custom retrofitted electric commuter bicycle, designed to maximize safety, structural alignment, and battery storage using light alloy weldments.",
+      "challenge": "Maintaining the frame alignment and stiffness while retrofitting high-torque rear hub motors, routing internal cable paths, and optimizing heat dissipation in the battery pack.",
+      "research": "Conducted cell configuration analysis (10S3P using 18650 Li-ion cells), investigated torque-arm load thresholds to prevent frame dropout failures, and tested rolling resistances.",
+      "design": "Modeled a custom dual-plate torque arm and a frame-integrated battery casing. Positioned heavy battery assets near the center of gravity to optimize handling dynamics.",
+      "cad": "Constructed detailed CAD weldments in SOLIDWORKS. Performed structural static loading simulations (150kg rider load with dynamic shock factors) to secure motor dropouts.",
+      "manufacturing": "Milled structural steel torque arms using CNC vertical milling. Prepared battery pack with localized spot welding and custom fire-retardant heat shrinking.",
+      "assembly": "Re-spoked standard rims with heavy 12G stainless steel spokes for motor integration. Wired 36V controller unit, pedal assist sensors (PAS), throttle, and electronic brake cut-off switches.",
+      "testing": "Completed incline speed tests (holding 20 km/h up a 10% gradient), measured thermal thresholds of the controller under 15A continuous current, and verified emergency braking distance (3.2m from 25 km/h).",
+      "result": "Fabricated a premium utility electric bicycle with a max speed of 32 km/h, range of 40 km per charge, and a structural frame factor of safety exceeding 2.5.",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1571068316344-75bc76f77891?q=80&w=1200&auto=format&fit=crop",
+          "caption": "Dynamic CAD testing and frame modeling"
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=1200&auto=format&fit=crop",
+          "caption": "Retrofit hub motor and structural torque arm detail"
+        }
+      ]
+    },
+    {
+      "id": "project-03",
+      "title": "Biomimetic Additive Manufacturing",
+      "category": "Advanced Materials & Research",
+      "status": "Research Project",
+      "overview": "Design optimization of load-bearing structural brackets using cellular structures inspired by natural leaf venation patterns and topology optimization algorithms.",
+      "challenge": "Translating multi-directional organic vascular systems into mathematically defined lattice structures that can be manufactured via additive processes without excessive internal supports.",
+      "research": "Studied leaf venation mechanics, cellular growth algorithms (Space Colonization Algorithm), and density-graded lattice structures for high-performance weight reduction.",
+      "leaf_structure": "Mapped the fluid channel paths of natural dicotyledonous leaves, translating the main and secondary veins into stress-aligned reinforcement rib patterns.",
+      "topology_optimization": "Applied boundary loads (2000N tensile and shear forces) to a standard aerospace bracket space. Ran topology optimization in ANSYS/SOLIDWORKS to isolate primary load paths.",
+      "ntop_workflow": "Imported boundaries into nTop. Utilized stress fields from FEA results to drive thickness gradients of cellular lattices. Rendered custom TPMS (Triply Periodic Minimal Surface) structures.",
+      "3d_printing": "SLA-printed test brackets in high-temp resin, and FDM-printed brackets in carbon-fiber reinforced nylon (PA-CF) for mechanical destructive testing.",
+      "expected_results": "Attained 42% structural mass reduction while retaining 88% of structural stiffness, demonstrating that organic graded meshes excel under complex shear stresses.",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop",
+          "caption": "nTop mesh gradient density distribution map"
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
+          "caption": "3D printed SLA resin test models under compression"
+        }
+      ]
+    },
+    {
+      "id": "project-04",
+      "title": "CAD Showcase",
+      "category": "Computer Aided Engineering",
+      "overview": "A curated collection of professional 3D CAD modeling projects, mechanical assemblies, technical blueprints, and motion studies showcasing high-precision drafting and engineering design.",
+      "isGalleryOnly": true,
+      "gallery": [
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop",
+          "title": "Planetary Gearbox Assembly",
+          "category": "Assemblies",
+          "description": "Full CAD assembly model of a multi-stage planetary gear system with standard ISO fasteners, shaft splines, and bearing mounts."
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
+          "title": "Engine Piston & Connecting Rod",
+          "category": "Parts",
+          "description": "High-fidelity parametric part modeling of an automotive piston head, complete with compression ring grooves and wrist pins."
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1581092334651-ddf26d9a1930?q=80&w=1200&auto=format&fit=crop",
+          "title": "Suspension Linkage Blueprint",
+          "category": "Drawings",
+          "description": "Fully detailed engineering drawing (ANSI Standard) showing dimensional tolerances, weld symbols, and bill of materials (BOM)."
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=1200&auto=format&fit=crop",
+          "title": "Quadcopter Carbon Frame Render",
+          "category": "Renderings",
+          "description": "Photorealistic keyshot render of a custom 5-inch carbon fiber quadcopter airframe with anodized aluminum spacers."
+        },
+        {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1200&auto=format&fit=crop",
+          "title": "4-Bar Suspension Kinematic Study",
+          "category": "Motion Studies",
+          "description": "Motion study simulating velocity vector curves, force transmission, and articulation clearance for a mountain bike shock linkage."
+        }
+      ]
+    }
+  ],
+  "engineering_process": [
+    {
+      "step": "Research",
+      "description": "Analyzing problems, surveying existing solutions, researching patents, and establishing rigorous user requirements and design constraints."
+    },
+    {
+      "step": "Concept",
+      "description": "Brainstorming structural layouts, sketching initial mechanisms, and conducting trade-off matrices to evaluate competing design paths."
+    },
+    {
+      "step": "Sketch",
+      "description": "Creating hand-drawn layout drafts and rapid 2D CAD layouts to verify spatial constraints, aesthetics, and basic ergonomics."
+    },
+    {
+      "step": "CAD",
+      "description": "Developing fully parametric 3D CAD part models, complete assemblies, motion simulations, and finite element stress analyses (FEA)."
+    },
+    {
+      "step": "Prototype",
+      "description": "Fabricating physical modules utilizing additive manufacturing (3D printing), CNC machining, laser cutting, and breadboard circuitry."
+    },
+    {
+      "step": "Testing",
+      "description": "Subjecting models to mechanical load tests, environmental conditions, fatigue tests, and debugging embedded firmware."
+    },
+    {
+      "step": "Manufacturing",
+      "description": "Preparing technical blueprints (GD&T tolerances), bill of materials (BOM), mold clearances, and sourcing fabrication materials."
+    }
+  ],
+  "leadership": [
+    {
+      "role": "SAE Student Program Chair",
+      "description": "SAE Student Branch leader responsible for coordinating automotive technical events, arranging industrial guest lectures, and guiding a core student committee of 15 organizers."
+    },
+    {
+      "role": "Institution's Innovation Council Coordinator",
+      "description": "Facilitated on-campus hackathons, arranged guest speakers on intellectual property rights (IPR) and patents, and promoted student entrepreneurship initiatives."
+    },
+    {
+      "role": "NSS Volunteer",
+      "description": "Organized blood donation campaigns, tree plantation drives, and green technology awareness programs in surrounding rural villages."
+    },
+    {
+      "role": "Rotaract Club Member",
+      "description": "Coordinated community-oriented projects, distributed learning kits to local primary schools, and supported health sanitization drives."
+    }
+  ],
+  "certifications": [
+    {
+      "title": "SOLIDWORKS CAD Design Associate",
+      "issuer": "Dassault Systèmes",
+      "credential_id": "C-CSWA-2024",
+      "url": "https://www.solidworks.com/"
+    },
+    {
+      "title": "MATLAB Onramp",
+      "issuer": "MathWorks",
+      "credential_id": "ML-ONRAMP-2024",
+      "url": "https://www.mathworks.com/"
+    },
+    {
+      "title": "NPTEL Cloud Computing",
+      "issuer": "Ministry of Education, India",
+      "credential_id": "NPTEL-CC-2024",
+      "url": "https://nptel.ac.in/"
+    }
+  ],
+  "professional_membership": {
+    "organization": "SAE INDIA",
+    "chapter": "Southern Section",
+    "role": "Student Member",
+    "member_id": "SAE-ST-2024-902",
+    "valid_thru": "December 2027"
+  }
+}

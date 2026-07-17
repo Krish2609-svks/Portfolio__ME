@@ -2,84 +2,78 @@ import EngineeringBackground from "@/components/canvas/EngineeringBackground";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Philosophy from "@/components/sections/Philosophy";
-import Skills from "@/components/sections/Skills";
+import Capabilities from "@/components/sections/Capabilities";
 import DesignProcess from "@/components/sections/DesignProcess";
 import Projects from "@/components/sections/Projects";
-import Experience from "@/components/sections/Experience";
-import Education from "@/components/sections/Education";
 import Leadership from "@/components/sections/Leadership";
-import Achievements from "@/components/sections/Achievements";
-import Gallery from "@/components/sections/Gallery";
 import Contact from "@/components/sections/Contact";
-import { createClient } from "@/utils/supabase/server";
+import { getPortfolioData } from "@/utils/getData";
 
 export default async function Home() {
-  const supabase = await createClient();
-  
-  // Fetch singleton settings
-  const { data: settings } = await supabase
-    .from('portfolio_settings')
-    .select('*')
-    .maybeSingle();
-
-  // Fetch all lists concurrently
-  const [
-    { data: skills },
-    { data: experience },
-    { data: education },
-    { data: leadership },
-    { data: achievements },
-    { data: certifications },
-    { data: gallery },
-    { data: designProcess }
-  ] = await Promise.all([
-    supabase.from('skills').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('experience').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('education').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('leadership').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('achievements').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('certifications').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('gallery').select('*').eq('published', true).order('display_order', { ascending: true }),
-    supabase.from('design_process').select('*').eq('published', true).order('display_order', { ascending: true })
-  ]);
+  const data = getPortfolioData();
+  const { settings, stats } = data;
 
   return (
     <main className="relative min-h-screen bg-background text-foreground selection:bg-accent-primary selection:text-background overflow-x-hidden">
+      {/* Blueprint particle background */}
       <EngineeringBackground />
+
+      {/* Hero Section */}
       <Hero 
-        title={settings?.hero_title}
-        subtitle={settings?.hero_subtitle}
-        description={settings?.hero_description}
-        resumeUrl={settings?.hero_resume_url}
+        title={settings.hero_title}
+        subtitle={settings.hero_subtitle}
+        roles={settings.roles}
+        description={settings.hero_description}
+        resumeUrl={settings.resume_url}
       />
-      <About 
-        content={settings?.about_content}
-        imageUrl={settings?.about_image_url}
-      />
+
+      {/* Philosophy Section */}
       <Philosophy 
-        quote={settings?.philosophy_quote}
-        paragraph1={settings?.philosophy_paragraph_1}
-        paragraph2={settings?.philosophy_paragraph_2}
+        quote={settings.philosophy_quote}
+        highlight={settings.philosophy_highlight}
+        subtext={settings.philosophy_subtext}
+      />
+
+      {/* About Profile Section */}
+      <About 
+        content={settings.about_content}
+        stats={stats}
       />
       
-      {/* Dynamic DB Sections */}
-      <Skills skills={skills || []} />
-      <Experience items={experience || []} />
-      <Education items={education || []} />
-      <Leadership leadershipItems={leadership || []} certifications={certifications || []} />
-      <Achievements items={achievements || []} />
+      {/* Capabilities Section */}
+      <Capabilities />
       
-      <DesignProcess steps={designProcess || []} />
+      {/* Selected Case Studies */}
       <Projects />
+
+      {/* Engineering Timeline Process */}
+      <DesignProcess />
       
-      <Gallery items={gallery || []} />
+      {/* Leadership & Activities */}
+      <Leadership />
+      
+      {/* Contact Section */}
       <Contact 
-        email={settings?.contact_email}
-        linkedin={settings?.contact_linkedin}
-        github={settings?.contact_github}
-        location={settings?.contact_location}
-        availability={settings?.contact_availability}
+        email={settings.email}
+        linkedin={settings.linkedin}
+        github={settings.github}
+        location={settings.location}
+        availability={settings.availability}
+        resumeUrl={settings.resume_url}
       />
+
+      {/* Minimal Footer */}
+      <footer className="relative w-full py-12 px-6 lg:px-20 border-t border-white/5 bg-background z-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 text-center md:text-left">
+            Designed & Developed by Nambi Krishnan. &copy; {new Date().getFullYear()}
+          </p>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-foreground/30 text-center md:text-right">
+            Built using Next.js // React Three Fiber // GSAP // Tailwind CSS
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }
+
